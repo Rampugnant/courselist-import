@@ -8,7 +8,7 @@ function parseFile(){
     const readFile = util.promisify(fs.readFile);
 
     const customPromise = new Promise(function(resolve, reject){
-        readFile('./test.csv', 'utf-8')
+        readFile('./ssr2cdi3.csv', 'utf-8')
             .then(function(data){
                 let res;
                 papa.parse(data, {
@@ -36,7 +36,9 @@ function parseFile(){
             })
             
                 
-            .catch(function (err){ reject(new Error, err);})
+            .catch(function (err){ 
+                reject(new Error, err);
+            })
         ;
     })
 
@@ -53,7 +55,7 @@ function comparison (fileRecs, atRecs) {
         let updateCheck = 0;
 
         // create computed unique id that will match atrec computed unique id
-        let recid = rec.lastname + rec.articleNum;
+        let recid = rec['Term Code'] +  " - " + rec.CRN;
         
         for (atrec of atRecs) {
 
@@ -75,8 +77,9 @@ function comparison (fileRecs, atRecs) {
                         });
                         break;
                         }
-                    // compare everything else
-                    } else if (!(rec[field] === atrec.fields[field])){
+                    // compare everything else, skipping fields that are null and dropped by AT
+                    } else if (rec[field] !== null && atrec.fields[field] !== undefined && !(rec[field] === atrec.fields[field])){
+                        //console.log(field);
                         updateArray.push({
                             "id" : atrec.id,
                             "fields" : rec

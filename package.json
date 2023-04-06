@@ -1,0 +1,24 @@
+{
+  "name": "courselist-import",
+  "version": "1.0.0",
+  "description": "course list AT parser",
+  "main": "Airtablecall.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rampugnant/courselist-import.git"
+  },
+  "author": "Nathan Feemster",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rampugnant/courselist-import/issues"
+  },
+  "homepage": "https://github.com/Rampugnant/courselist-import#readme",
+  "dependencies": {
+    "airtable": "^0.11.6",
+    "dotenv": "^16.0.3",
+    "papaparse": "^5.4.1"
+  }
+}

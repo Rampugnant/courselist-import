@@ -12,4 +12,8 @@ After the file is read in it is parsed by papaparser. The results aren't always 
 
 Cleans happen first. Always test to make sure there is a value currently there with an if statement. Then update the value to the necessary type. Then the filters go through and check to see if the record fits the data structure. They mark the record as a reject if it fails. Customize the function testandclean to suit your data.
 
+## main.js
+
+Based on folder structure, update the read file name (~ line 11).
+Based on AT Table id field formula, update the composition of the recid variable in the comparison function (~ line 56).
 

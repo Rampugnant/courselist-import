@@ -10,8 +10,8 @@ Airtable.configure({
 });
 
 const base = Airtable.base('appgoaq9qwhJDXgtb');
-const source = 'Table 1';
-const view = "UPDATE";
+const source = 'courselist';
+const view = 'Grid view';
 
 
 // This is the first function called
@@ -29,7 +29,7 @@ function getATRecords() {
             
             // removes rejected records
             if (records[i]._rawJson.fields.reject){
-                records[i].splice(i, 1);
+                records.splice(i, 1);
             } else {
                 sourceRecordsMatch.push(records[i]._rawJson);
             }
@@ -38,12 +38,16 @@ function getATRecords() {
         fetchNextPage();
     }, function done(err) {
         if (err) {console.log(err); return}
+
+        
         // Once everything above is done, parse the collocated data file
         main.parseFile()
         .then(function(data){
         // Once parsed, compare both sets of records
+
             return main.comparison(data, sourceRecordsMatch);
         })
+        
         .then(function(arrs){
             // the comparison above results in an array of 2 arrays
             // [0] is the records to create array 
@@ -51,6 +55,7 @@ function getATRecords() {
             if (arrs[0].length !== 0) {
                 // send create array to be paced and passed to create method.
                 console.log("Create this many records: " + arrs[0].length);
+                
                 main.buildByTen(arrs[0], source, createAllRecords);
                 
             }
@@ -61,7 +66,7 @@ function getATRecords() {
         
             }
         })
-
+        
 
         .catch(function(err){ console.log(err);})
         

@@ -6,39 +6,69 @@
 
 
 function testandcleanfile(obj) {
-
     let reject = 0
-
-    // cleans - does required data conversions - this will be custom to each data
-    if(obj.articleNum || obj.articleNum >= 0){ obj.articleNum += ""; }
-    if(obj.birthDate){ obj.birthDate = new Date(obj.birthDate); }
-    
-    // Working on a way to clean html tags out of text ----
-        // if(obj.notes){ obj.notes = removeTags(obj.notes); }
+    //console.log(obj.CRN);
 
     // filters - tests records to make sure we want them  - again, custom to each data
-    if(!obj.birthDate){ reject++; }
-    if(obj.lastname === null){ reject++; }
+    if(obj.Title === null || obj.Title === undefined){ reject++; }
+    if(obj['Term Code'] === null){ reject++; }
+    if(obj.CRN === null){ reject++; }
 
     // if a rec failed, mark as rejected
-    if(reject >= 1) {obj.reject = true;}
+    if(reject >= 1) {
+        obj.reject = true;
+    } else {
+
+        // cleans - does required data conversions - this will be custom to each data
+        if(obj['Start Date']) {
+            obj['Start Date'] = new Date(obj['Start Date']); 
+            obj['End Date'] = new Date(obj['End Date']); 
+        }
+        if(obj.Credits && isNaN(obj.Credits)) {
+            obj.Credits = 99;
+            obj.Notes += " - Variable Credit";
+        }
+        if(obj.Room && !isNaN(obj.Room)) {
+            obj.Room += "";
+        }
+        if(obj.Section && !isNaN(obj.Section)) {
+            obj.Section += "";
+        }
+        if(!isNaN(obj.Session)) {
+            obj.Session += "";
+        }
+        if(obj.Campus){
+            obj.Campus += "";
+        }
+        
+        // clean html tags out of text ----
+        if(obj.Notes !== null && obj.Notes.indexOf("href")){ 
+            obj.Notes = removeTags(obj.Notes);
+        }
+    }
+    
     
 }
 
 function testandcleanAT (obj) {
     let reject = 0;
 
-    // cleans - does required data conversions - this will be custom to each data
-    if(obj.birthDate){ obj.birthDate = new Date(obj.birthDate); }
-
     // filters - tests records to make sure we want them  - again, custom to each data
-    if(!obj.id){ reject++; }
-    if(!obj.birthDate){ reject++; }
-    if(obj.lastname === null){ reject++; }
+    if(obj.Title === undefined){ reject++; }
+    if(obj['Term Code'] === undefined){ reject++; }
+    if(obj.CRN === undefined){ reject++; }
 
     // if a rec failed, mark as rejected
-    if(reject >= 1) {obj.reject = true;}
-
+    if(reject >= 1) {
+        obj.reject = true;
+    } else {
+        // cleans - does required data conversions - this will be custom to each data
+        if(obj['Start Date']) {
+            obj['Start Date'] = new Date(obj['Start Date']); 
+            obj['End Date'] = new Date(obj['End Date']); 
+        }
+    }
+    
 }
 
 // used to set index points in html string for function removeTags
